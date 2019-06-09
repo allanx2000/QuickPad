@@ -1,4 +1,6 @@
 ﻿using Innouvous.Utils.MVVM;
+using Newtonsoft.Json;
+using System;
 using System.Windows.Input;
 
 namespace QuickPad.ViewModel
@@ -8,10 +10,30 @@ namespace QuickPad.ViewModel
         public bool HasChanges
         {
             get => Get<bool>();
-            private set
+            set
             {
                 Set(value);
                 RaisePropertyChanged("Name");
+            }
+        }
+
+        public DateTime Created
+        {
+            get { return Get<DateTime>(); }
+            set
+            {
+                Set(value);
+                RaisePropertyChanged();
+            }
+        }
+
+        public DateTime Modified
+        {
+            get { return Get<DateTime>(); }
+            set
+            {
+                Set(value);
+                RaisePropertyChanged();
             }
         }
 
@@ -24,6 +46,7 @@ namespace QuickPad.ViewModel
                 content = value;
                 RaisePropertyChanged();
                 HasChanges = true;
+                Modified = DateTime.Now;
             }
         }
 
@@ -47,12 +70,12 @@ namespace QuickPad.ViewModel
             HasChanges = false;
 
             this.content = content;
+            Created = DateTime.Now;
         }
 
-        public void Saved()
+        internal void SetName(string v)
         {
-            HasChanges = false;
+            Name = v;
         }
-
     }
 }

@@ -1,7 +1,11 @@
-﻿using Innouvous.Utils.MVVM;
+﻿using Innouvous.Utils;
+using Innouvous.Utils.MVVM;
+using Newtonsoft.Json;
+using QuickPad.Properties;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,8 +16,13 @@ namespace QuickPad.ViewModel
 {
     public class MainWindowViewModel : Innouvous.Utils.Merged45.MVVM45.ViewModel
     {
-        private ObservableCollection<Document> tabs = new ObservableCollection<Document>();
-        private Window window;
+        private readonly ObservableCollection<Document> tabs = new ObservableCollection<Document>();
+        private readonly Window window;
+
+        private readonly Settings settings;
+        private readonly JsonSerializer jser = new JsonSerializer();
+
+        private int docCounter = 1;
 
         public Document CurrentTab
         {
@@ -50,17 +59,47 @@ namespace QuickPad.ViewModel
         {
             this.window = window;
 
-            AddDocument();
-            AddDocument();
+            this.settings = Settings.Default;
+
+            LoadSavedDocuments();
+        }
+
+        private void LoadSavedDocuments()
+        {
+            if (File.Exists(settings.SaveFile))
+            {
+                using (StreamReader sr = new StreamReader(settings.SaveFile)) {
+                    SavedDocuments docs = (SavedDocuments) jser.Deserialize(sr, typeof(SavedDocuments));
+
+                    foreach (var d in docs.Documents)
+                    {
+                        d.HasChanges = false;
+                        d.SetName(GetNewName());
+                        Tabs.Add(d);
+
+                    }
+
+                    if (Tabs.Count > 0)
+                    {
+                        CurrentTab = Tabs.First();
+                        docCounter = Tabs.Count + 1;
+                    }
+                }
+            }
         }
 
         private void AddDocument()
         {
-            string title = "Document " + (Tabs.Count + 1);
+            string title = GetNewName();
 
             var doc = new Document(title);
             tabs.Add(doc);
             CurrentTab = doc;
+        }
+
+        private string GetNewName()
+        {
+            return "Doc " + docCounter++;
         }
 
         public ICommand SaveAllCommand
@@ -73,12 +112,34 @@ namespace QuickPad.ViewModel
 
         private void SaveAll()
         {
-            foreach (var t in tabs)
+            //Save
+            SavedDocuments saved = new SavedDocuments();
+            saved.Documents.AddRange(tabs);
+
+            var bak = settings.SaveFile + ".bak";
+            foreach (var t in tabs) //Needed to remove the * from Name
             {
-                t.Saved();
+                t.HasChanges = false;
             }
 
+            if (File.Exists(settings.SaveFile))
+            {
+                File.Copy(settings.SaveFile, bak, true);
+            }
+
+            using (StreamWriter sw = new StreamWriter(settings.SaveFile, false))
+            {
+                jser.Serialize(sw, saved);
+            }
+
+            
+
             StatusText = "All documents saved";
+        }
+
+        public ICommand AddDocumentCommand
+        {
+            get { return new CommandHelper(AddDocument); }
         }
 
         public ICommand CloseDocumentCommand
@@ -90,12 +151,17 @@ namespace QuickPad.ViewModel
         {
             if (CurrentTab != null)
             {
-                Tabs.Remove(CurrentTab);
+                if (MessageBoxFactory.ShowConfirmAsBool($"Delete {CurrentTab.Name}? Change will not be saved until workspace is Saved", "Confirm Remove", MessageBoxImage.Exclamation))
+                {
+                    Tabs.Remove(CurrentTab);
 
-                if (Tabs.Count > 0)
-                    CurrentTab = Tabs.ElementAt(Tabs.Count - 1);
-                else
-                    CurrentTab = null;
+                    if (Tabs.Count > 0)
+                        CurrentTab = Tabs.ElementAt(Tabs.Count - 1);
+                    else
+                        CurrentTab = null;
+
+                    //SaveAll();
+                }
             }
         }
     }
