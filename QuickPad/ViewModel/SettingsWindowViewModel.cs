@@ -74,5 +74,23 @@ namespace QuickPad.ViewModel
 
             return false;
         }
+
+        public ICommand BrowseSaveFileCommand
+        {
+            get => new CommandHelper(BrowseSaveFile);
+        }
+
+        private void BrowseSaveFile()
+        {
+            var dlg = DialogsUtility.CreateSaveFileDialog(overwritePrompt: false, title: "Create/Select Save File");
+            DialogsUtility.AddExtension(dlg, "QuickPad Save", "*.qps");
+
+            var ok = dlg.ShowDialog(window);
+
+            if (ok.HasValue && ok == true)
+            {
+                SavePath = dlg.FileName;
+            }
+        }
     }
 }

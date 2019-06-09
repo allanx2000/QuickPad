@@ -15,7 +15,7 @@
 
         <DockPanel Grid.Row="0" LastChildFill="True">
             <Label DockPanel.Dock="Left">Save To: </Label>
-            <Button DockPanel.Dock="Right">...</Button>
+            <Button DockPanel.Dock="Right" Command="{Binding BrowseSaveFileCommand}">...</Button>
 
             <TextBox Text="{Binding SavePath}"/>
         </DockPanel>
