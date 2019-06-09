@@ -12,17 +12,19 @@
         <KeyBinding Modifiers="Ctrl" Key="N" Command="{Binding AddDocumentCommand}"/>
     </Window.InputBindings>
     <DockPanel LastChildFill="True">
-        <Menu DockPanel.Dock="Top">
-            <MenuItem Header="File">
+        <DockPanel DockPanel.Dock="Top" LastChildFill="True">
+            <Menu DockPanel.Dock="Left">
                 <MenuItem Header="New" Command="{Binding AddDocumentCommand}"/>
                 <MenuItem Header="Save All" Command="{Binding SaveAllCommand}"/>
-                <Separator/>
+            </Menu>
+
+            <Menu DockPanel.Dock="Right">
                 <MenuItem Header="Settings" Command="{Binding SettingsCommand}"/>
-            </MenuItem>
-
-            <MenuItem Header="Export Tab"/>
-        </Menu>
-
+            </Menu>
+            
+            <Label/>
+        </DockPanel>
+        
         <StatusBar DockPanel.Dock="Bottom">
             <TextBlock Text="{Binding StatusText}"/>
         </StatusBar>

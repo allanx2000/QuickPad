@@ -66,8 +66,11 @@ namespace QuickPad.ViewModel
 
         private void LoadSavedDocuments()
         {
-            if (File.Exists(settings.SaveFile))
+            if (!string.IsNullOrEmpty(settings.SaveFile) && File.Exists(settings.SaveFile))
             {
+                Tabs.Clear();
+                docCounter = 1;
+
                 using (StreamReader sr = new StreamReader(settings.SaveFile)) {
                     SavedDocuments docs = (SavedDocuments) jser.Deserialize(sr, typeof(SavedDocuments));
 
@@ -112,6 +115,19 @@ namespace QuickPad.ViewModel
 
         private void SaveAll()
         {
+            if (string.IsNullOrEmpty(settings.SaveFile))
+            {
+                MessageBoxFactory.ShowInfo(window, "Save Path is not set. Please set now.", "Save Path Not Set");
+
+                ShowSettings(false);
+
+                if (string.IsNullOrEmpty(settings.SaveFile))
+                {
+                    StatusText = "Save Path was not set.";
+                    return;
+                }
+            }
+
             //Save
             SavedDocuments saved = new SavedDocuments();
             saved.Documents.AddRange(tabs);
@@ -135,6 +151,24 @@ namespace QuickPad.ViewModel
             
 
             StatusText = "All documents saved";
+        }
+
+        public ICommand SettingsCommand
+        {
+            get => new CommandHelper(() => ShowSettings(true));
+        }
+
+        private void ShowSettings(bool reloadNeeded)
+        {
+            var dlg = new SettingsWindow();
+            dlg.Owner = window;
+            dlg.ShowDialog();
+
+            if (!dlg.Cancelled && reloadNeeded)
+            {
+                MessageBoxFactory.ShowInfo(window, "You need to restart the for changes to take effect.", "Restart Required");
+            }
+
         }
 
         public ICommand AddDocumentCommand
