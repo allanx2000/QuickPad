@@ -28,6 +28,16 @@ namespace QuickPad.ViewModel
             }
         }
 
+        public string StatusText
+        {
+            get => Get<string>();
+            private set
+            {
+                Set(value);
+                RaisePropertyChanged();
+            }
+        }
+
         public ICollection<Document> Tabs
         {
             get
@@ -67,6 +77,27 @@ namespace QuickPad.ViewModel
             {
                 t.Saved();
             }
+
+            StatusText = "All documents saved";
+        }
+
+        public ICommand CloseDocumentCommand
+        {
+            get { return new CommandHelper(CloseDocument); }
+        }
+
+        public void CloseDocument()
+        {
+            if (CurrentTab != null)
+            {
+                Tabs.Remove(CurrentTab);
+
+                if (Tabs.Count > 0)
+                    CurrentTab = Tabs.ElementAt(Tabs.Count - 1);
+                else
+                    CurrentTab = null;
+            }
         }
     }
+
 }

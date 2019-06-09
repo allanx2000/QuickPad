@@ -1,4 +1,7 @@
-﻿namespace QuickPad.ViewModel
+﻿using Innouvous.Utils.MVVM;
+using System.Windows.Input;
+
+namespace QuickPad.ViewModel
 {
     public class Document : Innouvous.Utils.Merged45.MVVM45.ViewModel
     {
@@ -50,5 +53,6 @@
         {
             HasChanges = false;
         }
+
     }
 }
