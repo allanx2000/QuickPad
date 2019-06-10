@@ -33,6 +33,7 @@ namespace QuickPad.ViewModel
             this.window = window;
 
             SavePath = settings.SaveFile;
+            Cancelled = true;
         }
 
         public ICommand CancelCommand

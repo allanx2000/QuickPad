@@ -42,7 +42,7 @@
                 <!-- this is the header template-->
                 <DataTemplate>
                     <TextBlock ToolTip="{Binding Description}"
-                    Text="{Binding Name}" />
+                    Text="{Binding Header}" />
                     
                 </DataTemplate>
             </TabControl.ItemTemplate>

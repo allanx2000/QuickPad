@@ -105,48 +105,54 @@ namespace QuickPad.ViewModel
 
         private void SaveAll()
         {
-            if (string.IsNullOrEmpty(settings.SaveFile))
+            try
             {
-                MessageBoxFactory.ShowInfo(window, "Save Path is not set. Please set now.", "Save Path Not Set");
-
-                ShowSettings(false);
-
                 if (string.IsNullOrEmpty(settings.SaveFile))
                 {
-                    Log("Save Path was not set.");
+                    MessageBoxFactory.ShowInfo(window, "Save Path is not set. Please set now.", "Save Path Not Set");
+
+                    ShowSettings(false);
+
+                    if (string.IsNullOrEmpty(settings.SaveFile))
+                    {
+                        Log("Save Path was not set.");
+                        return;
+                    }
+                }
+
+                if (!HasUnsaved)
+                {
+                    Log("No documents need to be saved");
                     return;
                 }
-            }
 
-            if (!HasUnsaved)
+                //Save
+                SavedDocuments saved = new SavedDocuments();
+                saved.Documents.AddRange(tabs);
+
+                var bak = settings.SaveFile + ".bak";
+                foreach (var t in tabs) //Needed to remove the * from Name
+                {
+                    t.HasChanges = false;
+                }
+
+                if (File.Exists(settings.SaveFile))
+                {
+                    File.Copy(settings.SaveFile, bak, true);
+                }
+
+                using (StreamWriter sw = new StreamWriter(settings.SaveFile, false))
+                {
+                    jser.Serialize(sw, saved);
+                }
+
+                Log("All documents saved");
+            }
+            catch (Exception e)
             {
-                Log("No documents need to be saved");
-                return;
+                MessageBoxFactory.ShowError(e, "Save Error", owner: window);
+                Log("All documents saved");
             }
-
-            //Save
-            SavedDocuments saved = new SavedDocuments();
-            saved.Documents.AddRange(tabs);
-
-            var bak = settings.SaveFile + ".bak";
-            foreach (var t in tabs) //Needed to remove the * from Name
-            {
-                t.HasChanges = false;
-            }
-
-            if (File.Exists(settings.SaveFile))
-            {
-                File.Copy(settings.SaveFile, bak, true);
-            }
-
-            using (StreamWriter sw = new StreamWriter(settings.SaveFile, false))
-            {
-                jser.Serialize(sw, saved);
-            }
-
-
-
-            Log("All documents saved");
         }
 
         private void Log(string msg)

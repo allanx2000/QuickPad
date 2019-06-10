@@ -28,7 +28,7 @@ namespace QuickPad.ViewModel
             set
             {
                 Set(value);
-                RaisePropertyChanged("Name");
+                RaisePropertyChanged("Header");
             }
         }
 
@@ -81,15 +81,22 @@ namespace QuickPad.ViewModel
             }
         }
 
+        [JsonIgnore]
+        public string Header
+        {
+            get => (Name + (HasChanges ? "*" : ""));
+        }
+
         public string Name
         {
             get
             {
-                return Get<string>() + (HasChanges ? "*" : "");
+                return Get<string>();
             }
             private set
             {
                 Set(value);
+                RaisePropertyChanged();
                 RaisePropertyChanged("Header");
             }
         }
