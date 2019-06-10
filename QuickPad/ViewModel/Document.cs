@@ -64,6 +64,7 @@ namespace QuickPad.ViewModel
                 string modified = Modified.Value > DateTime.Today ? Modified.Value.ToShortTimeString() : Modified.Value.ToShortDateString();
                 sb.AppendLine("Modified: " + modified);
             }
+
             Description = sb.ToString().Trim();
         }
 

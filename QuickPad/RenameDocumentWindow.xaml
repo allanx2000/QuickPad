@@ -1,0 +1,15 @@
+﻿<Window x:Class="QuickPad.RenameDocumentWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:QuickPad"
+        mc:Ignorable="d"
+        Title="Rename Document" WindowStartupLocation="CenterOwner" WindowStyle="ToolWindow" SizeToContent="WidthAndHeight">
+    <StackPanel Orientation="Horizontal">
+        <Label>Name: </Label>
+        <TextBox Width="120" MaxLength="50" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
+        <Button Command="{Binding ChangeCommand}">Change</Button>
+        <Button Command="{Binding CancelCommand}">Cancel</Button>
+    </StackPanel>
+</Window>

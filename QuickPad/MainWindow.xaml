@@ -33,6 +33,7 @@
             <TabControl.ContextMenu>
                 <!-- This is TabControl Context-->
                 <ContextMenu>
+                    <MenuItem Header="Rename" Command="{Binding RenameDocumentCommand}"/>
                     <MenuItem Header="Export"/>
                     <MenuItem Header="Delete"  Command="{Binding CloseDocumentCommand}" />
                 </ContextMenu>

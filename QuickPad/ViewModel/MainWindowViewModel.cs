@@ -22,7 +22,7 @@ namespace QuickPad.ViewModel
         private readonly Settings settings;
         private readonly JsonSerializer jser = new JsonSerializer();
 
-        private int docCounter = 1;
+        private const string New = "Untitled";
 
         public Document CurrentTab
         {
@@ -69,15 +69,13 @@ namespace QuickPad.ViewModel
             if (!string.IsNullOrEmpty(settings.SaveFile) && File.Exists(settings.SaveFile))
             {
                 Tabs.Clear();
-                docCounter = 1;
-
+                
                 using (StreamReader sr = new StreamReader(settings.SaveFile)) {
                     SavedDocuments docs = (SavedDocuments) jser.Deserialize(sr, typeof(SavedDocuments));
 
                     foreach (var d in docs.Documents)
                     {
                         d.HasChanges = false;
-                        d.SetName(GetNewName());
                         Tabs.Add(d);
 
                     }
@@ -85,7 +83,6 @@ namespace QuickPad.ViewModel
                     if (Tabs.Count > 0)
                     {
                         CurrentTab = Tabs.First();
-                        docCounter = Tabs.Count + 1;
                     }
                 }
             }
@@ -93,16 +90,9 @@ namespace QuickPad.ViewModel
 
         private void AddDocument()
         {
-            string title = GetNewName();
-
-            var doc = new Document(title);
+            var doc = new Document(New);
             tabs.Add(doc);
             CurrentTab = doc;
-        }
-
-        private string GetNewName()
-        {
-            return "Doc " + docCounter++;
         }
 
         public ICommand SaveAllCommand
@@ -214,6 +204,21 @@ namespace QuickPad.ViewModel
 
                     //SaveAll();
                 }
+            }
+        }
+
+        public ICommand RenameDocumentCommand
+        {
+            get => new CommandHelper(RenameDocument);
+        }
+
+        private void RenameDocument()
+        {
+            if (CurrentTab != null)
+            {
+                var dlg = new RenameDocumentWindow(CurrentTab);
+                dlg.Owner = window;
+                dlg.ShowDialog();
             }
         }
     }
