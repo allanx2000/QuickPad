@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="SaveFile" Type="System.String" Scope="User">
-      <Value Profile="(Default)">E:\test.qps</Value>
+      <Value Profile="(Default)" />
     </Setting>
   </Settings>
 </SettingsFile>

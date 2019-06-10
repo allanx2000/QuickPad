@@ -25,7 +25,7 @@ namespace QuickPad.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("E:\\test.qps")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string SaveFile {
             get {
                 return ((string)(this["SaveFile"]));
