@@ -123,9 +123,15 @@ namespace QuickPad.ViewModel
 
                 if (string.IsNullOrEmpty(settings.SaveFile))
                 {
-                    StatusText = "Save Path was not set.";
+                    Log("Save Path was not set.");
                     return;
                 }
+            }
+
+            if (!HasUnsaved)
+            {
+                Log("No documents need to be saved");
+                return;
             }
 
             //Save
@@ -148,9 +154,14 @@ namespace QuickPad.ViewModel
                 jser.Serialize(sw, saved);
             }
 
-            
 
-            StatusText = "All documents saved";
+
+            Log("All documents saved");
+        }
+
+        private void Log(string msg)
+        {
+            StatusText = $"{DateTime.Now.ToShortTimeString()}: {msg}"; 
         }
 
         public ICommand SettingsCommand
@@ -179,6 +190,13 @@ namespace QuickPad.ViewModel
         public ICommand CloseDocumentCommand
         {
             get { return new CommandHelper(CloseDocument); }
+        }
+
+        public bool HasUnsaved {
+            get
+            {
+                return Tabs.Where(x => x.HasChanges).Count() > 0;
+            }
         }
 
         public void CloseDocument()

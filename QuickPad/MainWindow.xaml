@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:QuickPad"
         mc:Ignorable="d"
-        Title="QuickPad" Height="450" Width="800" WindowStartupLocation="CenterScreen">
+        Title="QuickPad" Height="450" Width="800" WindowStartupLocation="CenterScreen" Closing="Window_Closing">
 
     <Window.InputBindings>
         <KeyBinding Modifiers="Ctrl" Key="S" Command="{Binding SaveAllCommand}"/>

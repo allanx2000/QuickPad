@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Innouvous.Utils;
 using QuickPad.ViewModel;
 
 namespace QuickPad
@@ -29,6 +30,16 @@ namespace QuickPad
 
             vm = new MainWindowViewModel(this);
             DataContext = vm;
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (vm.HasUnsaved)
+            {
+                var ctnu = MessageBoxFactory.ShowConfirmAsBool("There are unsaved documents. Continue closing?", "Unsaved Documents", MessageBoxImage.Exclamation);
+                if (!ctnu)
+                    e.Cancel = true;
+            }
         }
     }
 }
