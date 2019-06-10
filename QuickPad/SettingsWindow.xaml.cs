@@ -29,6 +29,6 @@ namespace QuickPad
             DataContext = vm;
         }
 
-        public bool Cancelled { get; internal set; }
+        public bool Cancelled { get => vm.Cancelled; }
     }
 }
