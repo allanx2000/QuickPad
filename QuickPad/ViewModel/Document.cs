@@ -1,12 +1,27 @@
 ﻿using Innouvous.Utils.MVVM;
 using Newtonsoft.Json;
 using System;
+using System.Text;
 using System.Windows.Input;
 
 namespace QuickPad.ViewModel
 {
     public class Document : Innouvous.Utils.Merged45.MVVM45.ViewModel
     {
+        [JsonIgnore]
+        private string description;
+
+        [JsonIgnore]
+        public string Description
+        {
+            get => description;
+            private set
+            {
+                description = value;
+                RaisePropertyChanged();
+            }
+        }
+
         public bool HasChanges
         {
             get => Get<bool>();
@@ -24,17 +39,32 @@ namespace QuickPad.ViewModel
             {
                 Set(value);
                 RaisePropertyChanged();
+                UpdateDescription();
             }
         }
 
-        public DateTime Modified
+        public DateTime? Modified
         {
-            get { return Get<DateTime>(); }
+            get { return Get<DateTime?>(); }
             set
             {
                 Set(value);
                 RaisePropertyChanged();
+                UpdateDescription();
             }
+        }
+
+        private void UpdateDescription()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("Created: " + Created.ToShortDateString());
+
+            if (Modified.HasValue)
+            {
+                string modified = Modified.Value > DateTime.Today ? Modified.Value.ToShortTimeString() : Modified.Value.ToShortDateString();
+                sb.AppendLine("Modified: " + modified);
+            }
+            Description = sb.ToString().Trim();
         }
 
         private string content;

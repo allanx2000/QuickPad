@@ -21,26 +21,28 @@
             <Menu DockPanel.Dock="Right">
                 <MenuItem Header="Settings" Command="{Binding SettingsCommand}"/>
             </Menu>
-            
+
             <Label/>
         </DockPanel>
-        
+
         <StatusBar DockPanel.Dock="Bottom">
             <TextBlock Text="{Binding StatusText}"/>
         </StatusBar>
 
         <TabControl ItemsSource="{Binding Tabs}" SelectedItem="{Binding CurrentTab}">
-            <TabControl.ContextMenu> <!-- This is TabControl Context-->
+            <TabControl.ContextMenu>
+                <!-- This is TabControl Context-->
                 <ContextMenu>
                     <MenuItem Header="Export"/>
                     <MenuItem Header="Delete"  Command="{Binding CloseDocumentCommand}" />
-                    </ContextMenu>
+                </ContextMenu>
             </TabControl.ContextMenu>
             <TabControl.ItemTemplate>
                 <!-- this is the header template-->
                 <DataTemplate>
-                    <TextBlock
+                    <TextBlock ToolTip="{Binding Description}"
                     Text="{Binding Name}" />
+                    
                 </DataTemplate>
             </TabControl.ItemTemplate>
             <TabControl.ContentTemplate>
