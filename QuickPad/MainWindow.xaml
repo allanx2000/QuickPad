@@ -20,6 +20,7 @@
 
             <Menu DockPanel.Dock="Right">
                 <MenuItem Header="Settings" Command="{Binding SettingsCommand}"/>
+                <MenuItem Header="About" Command="{Binding AboutCommand}"/>
             </Menu>
 
             <Label/>

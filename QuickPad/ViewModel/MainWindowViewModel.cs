@@ -21,7 +21,7 @@ namespace QuickPad.ViewModel
 
         private readonly Settings settings;
         private readonly JsonSerializer jser = new JsonSerializer();
-
+        private bool tabDeleted = false;
         private const string New = "Untitled";
 
         public Document CurrentTab
@@ -120,7 +120,7 @@ namespace QuickPad.ViewModel
                     }
                 }
 
-                if (!HasUnsaved)
+                if (!HasUnsaved && !tabDeleted)
                 {
                     Log("No documents need to be saved");
                     return;
@@ -147,6 +147,7 @@ namespace QuickPad.ViewModel
                 }
 
                 Log("All documents saved");
+                tabDeleted = false;
             }
             catch (Exception e)
             {
@@ -178,6 +179,20 @@ namespace QuickPad.ViewModel
 
         }
 
+        public ICommand AboutCommand
+        {
+            get => new CommandHelper(ShowAboutWindow);
+        }
+
+        private void ShowAboutWindow()
+        {
+            using (StreamReader sr = new StreamReader("About.md")) {
+                var dlg = new Innouvous.Utils.MarkdownViewer.Viewer("About", sr.ReadToEnd());
+                dlg.Owner = window;
+                dlg.ShowDialog();
+            }
+        }
+
         public ICommand AddDocumentCommand
         {
             get { return new CommandHelper(AddDocument); }
@@ -191,7 +206,7 @@ namespace QuickPad.ViewModel
         public bool HasUnsaved {
             get
             {
-                return Tabs.Where(x => x.HasChanges).Count() > 0;
+                return tabDeleted || Tabs.Where(x => x.HasChanges).Count() > 0;
             }
         }
 
@@ -202,6 +217,7 @@ namespace QuickPad.ViewModel
                 if (MessageBoxFactory.ShowConfirmAsBool($"Delete {CurrentTab.Name}? Change will not be saved until workspace is Saved", "Confirm Remove", MessageBoxImage.Exclamation))
                 {
                     Tabs.Remove(CurrentTab);
+                    tabDeleted = true;
 
                     if (Tabs.Count > 0)
                         CurrentTab = Tabs.ElementAt(Tabs.Count - 1);
