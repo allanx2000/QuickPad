@@ -6,9 +6,13 @@
         xmlns:local="clr-namespace:QuickPad"
         mc:Ignorable="d"
         Title="Rename Document" WindowStartupLocation="CenterOwner" WindowStyle="ToolWindow" SizeToContent="WidthAndHeight">
+    <Window.InputBindings>
+        <KeyBinding Key="Return" Command="{Binding ChangeCommand}"/>
+        <KeyBinding Key="Esc" Command="{Binding CancelCommand}"/>
+    </Window.InputBindings>
     <StackPanel Orientation="Horizontal">
         <Label>Name: </Label>
-        <TextBox Width="120" MaxLength="50" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Width="120" Name="NameText" MaxLength="50" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
         <Button Command="{Binding ChangeCommand}">Change</Button>
         <Button Command="{Binding CancelCommand}">Cancel</Button>
     </StackPanel>

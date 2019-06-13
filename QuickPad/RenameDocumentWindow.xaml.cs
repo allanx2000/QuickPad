@@ -27,6 +27,8 @@ namespace QuickPad
             InitializeComponent();
             this.vm = new RenameDocumentWindowViewModel(doc, this);
             DataContext = vm;
+
+            NameText.Focus();
         }
     }
 }

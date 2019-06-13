@@ -12,25 +12,35 @@
         <KeyBinding Modifiers="Ctrl" Key="N" Command="{Binding AddDocumentCommand}"/>
     </Window.InputBindings>
     <DockPanel LastChildFill="True">
-        <DockPanel DockPanel.Dock="Top" LastChildFill="True">
-            <Menu DockPanel.Dock="Left">
+        <Grid DockPanel.Dock="Top">
+            <Grid.Resources>
+                <Style TargetType="MenuItem">
+                    <Setter Property="Padding" Value="3"/>
+                </Style>
+            </Grid.Resources>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Menu Grid.Column="0">
                 <MenuItem Header="New" Command="{Binding AddDocumentCommand}"/>
                 <MenuItem Header="Save All" Command="{Binding SaveAllCommand}"/>
             </Menu>
-
-            <Menu DockPanel.Dock="Right">
+            <Menu Grid.Column="1"/>
+            <Menu Grid.Column="2">
                 <MenuItem Header="Settings" Command="{Binding SettingsCommand}"/>
                 <MenuItem Header="About" Command="{Binding AboutCommand}"/>
             </Menu>
 
             <Label/>
-        </DockPanel>
+        </Grid>
 
         <StatusBar DockPanel.Dock="Bottom">
             <TextBlock Text="{Binding StatusText}"/>
         </StatusBar>
 
-        <TabControl ItemsSource="{Binding Tabs}" SelectedItem="{Binding CurrentTab}">
+        <TabControl ItemsSource="{Binding Tabs}" Margin="5" SelectedItem="{Binding CurrentTab}">
             <TabControl.ContextMenu>
                 <!-- This is TabControl Context-->
                 <ContextMenu>
