@@ -186,10 +186,18 @@ namespace QuickPad.ViewModel
 
         private void ShowAboutWindow()
         {
-            using (StreamReader sr = new StreamReader("About.md")) {
-                var dlg = new Innouvous.Utils.MarkdownViewer.Viewer("About", sr.ReadToEnd());
-                dlg.Owner = window;
-                dlg.ShowDialog();
+            try
+            {
+                using (StreamReader sr = new StreamReader("About.md"))
+                {
+                    var dlg = new Innouvous.Utils.MarkdownViewer.Viewer("About", sr.ReadToEnd());
+                    dlg.Owner = window;
+                    dlg.ShowDialog();
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBoxFactory.ShowError(e);
             }
         }
 
