@@ -8,6 +8,8 @@
         Title="QuickPad" Height="450" Width="800" WindowStartupLocation="CenterScreen" Closing="Window_Closing">
 
     <Window.InputBindings>
+        <KeyBinding Modifiers="Ctrl" Key="PageUp" Command="{Binding PreviousTabCommand}"/>
+        <KeyBinding Modifiers="Ctrl" Key="PageDown" Command="{Binding NextTabCommand}"/>
         <KeyBinding Modifiers="Ctrl" Key="S" Command="{Binding SaveAllCommand}"/>
         <KeyBinding Modifiers="Ctrl" Key="N" Command="{Binding AddDocumentCommand}"/>
     </Window.InputBindings>
@@ -40,7 +42,7 @@
             <TextBlock Text="{Binding StatusText}"/>
         </StatusBar>
 
-        <TabControl ItemsSource="{Binding Tabs}" Margin="5" SelectedItem="{Binding CurrentTab}">
+        <TabControl Name="DocumentsViewer" ItemsSource="{Binding Tabs}" Margin="5" SelectedItem="{Binding CurrentTab}">
             <TabControl.ContextMenu>
                 <!-- This is TabControl Context-->
                 <ContextMenu>
@@ -52,6 +54,7 @@
             <TabControl.ItemTemplate>
                 <!-- this is the header template-->
                 <DataTemplate>
+                    
                     <TextBlock ToolTip="{Binding Description}"
                     Text="{Binding Header}" />
                     
@@ -64,7 +67,10 @@
                              VerticalContentAlignment="Top" HorizontalContentAlignment="Left"
                              ScrollViewer.HorizontalScrollBarVisibility="Auto"
                              ScrollViewer.VerticalScrollBarVisibility="Auto"
-                             Text="{Binding Content, UpdateSourceTrigger=PropertyChanged}" />
+                             Text="{Binding Content, UpdateSourceTrigger=PropertyChanged}" PreviewKeyDown="TextBox_PreviewKeyDown" >
+                        <TextBox.InputBindings>
+                        </TextBox.InputBindings>
+                    </TextBox>
                 </DataTemplate>
             </TabControl.ContentTemplate>
         </TabControl>

@@ -243,6 +243,56 @@ namespace QuickPad.ViewModel
                 dlg.ShowDialog();
             }
         }
+
+        public ICommand NextTabCommand
+        {
+            get => new CommandHelper(GotoNextTab);
+        }
+
+        private void GotoNextTab()
+        {
+            if (CurrentTab != null && tabs.Count > 1)
+            {
+                bool found = false;
+                foreach (var t in tabs)
+                {
+                    if (t == CurrentTab)
+                    {
+                        found = true;
+                    }
+                    else if (found)
+                    {
+                        CurrentTab = t;
+                        break;
+                    }   
+                }
+            }
+        }
+
+        public ICommand PreviousTabCommand
+        {
+            get => new CommandHelper(GotoPreviousTab);
+        }
+
+        private void GotoPreviousTab()
+        {
+            if (CurrentTab != null && tabs.Count > 1)
+            {
+                bool found = false;
+                foreach (var t in tabs.Reverse())
+                {
+                    if (t == CurrentTab)
+                    {
+                        found = true;
+                    }
+                    else if (found)
+                    {
+                        CurrentTab = t;
+                        break;
+                    }
+                }
+            }
+        }
     }
 
 }

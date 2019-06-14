@@ -41,5 +41,22 @@ namespace QuickPad
                     e.Cancel = true;
             }
         }
+
+        private void TextBox_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
+            {
+                if (e.Key == Key.PageDown)
+                {
+                    vm.NextTabCommand.Execute(null);
+                    (sender as TextBox).Focus();
+                }
+                else if (e.Key == Key.PageUp)
+                {
+                    vm.PreviousTabCommand.Execute(null);
+                    (sender as TextBox).Focus();
+                }
+            }
+        }
     }
 }

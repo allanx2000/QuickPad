@@ -9,6 +9,10 @@ Lot's of ways to describe this...
 
 **CTRL+N** Create New
 
+**CTRL+PgUp** Previous Tab
+
+**CTRL+PgDown** Next Tab
+
 ## Tab Context Menu
 Right-click on the Tabs Bar to open.
 
