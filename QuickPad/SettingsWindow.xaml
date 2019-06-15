@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:QuickPad"
+        xmlns:xc="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Title="Settings" Width="400" SizeToContent="Height">
@@ -30,10 +31,13 @@
             </DockPanel>
 
             <Label Grid.Row="1" Grid.Column="0" Style="{StaticResource GridField}">Font Size:</Label>
-            <TextBox Grid.Row="1" Grid.Column="1" 
+            <StackPanel Grid.Row="1" Grid.Column="1"
+                        Orientation="Horizontal" >
+            <!--<TextBox  
                      Width="35" HorizontalAlignment="Left"
-                     MaxLength="3" Text="{Binding FontSize}"/>
-            
+                     MaxLength="3" Text="{Binding FontSize}"/>-->
+                <xc:IntegerUpDown Increment="1" Minimum="5" Padding="3" Margin="5" Maximum="99" Value="{Binding FontSize}"/>
+            </StackPanel>
         </Grid>
 
         <StackPanel Grid.Row="1">
