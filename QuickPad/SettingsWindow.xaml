@@ -13,12 +13,28 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <DockPanel Grid.Row="0" LastChildFill="True">
-            <Label DockPanel.Dock="Left">Save To: </Label>
-            <Button DockPanel.Dock="Right" Command="{Binding BrowseSaveFileCommand}">...</Button>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
 
-            <TextBox Text="{Binding SavePath}"/>
-        </DockPanel>
+            <Label Grid.Row="0" Grid.Column="0" Style="{StaticResource GridField}">Save File:</Label>
+            <DockPanel Grid.Row="0" Grid.Column="1" LastChildFill="True">
+                <Button DockPanel.Dock="Right" Command="{Binding BrowseSaveFileCommand}">...</Button>
+                <TextBox Text="{Binding SavePath}"/>
+            </DockPanel>
+
+            <Label Grid.Row="1" Grid.Column="0" Style="{StaticResource GridField}">Font Size:</Label>
+            <TextBox Grid.Row="1" Grid.Column="1" 
+                     Width="35" HorizontalAlignment="Left"
+                     MaxLength="3" Text="{Binding FontSize}"/>
+            
+        </Grid>
 
         <StackPanel Grid.Row="1">
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">

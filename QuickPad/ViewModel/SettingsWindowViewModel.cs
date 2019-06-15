@@ -28,11 +28,34 @@ namespace QuickPad.ViewModel
             }
         }
 
+        public string ExportPath
+        {
+            get => Get<string>();
+            set
+            {
+                Set(value);
+                RaisePropertyChanged();
+            }
+        }
+
+        public int FontSize
+        {
+            get => Get<int>();
+            set
+            {
+                Set(value);
+                RaisePropertyChanged();
+            }
+        }
+
+
+
         public SettingsWindowViewModel(Window window)
         {
             this.window = window;
 
             SavePath = settings.SaveFile;
+            FontSize = settings.FontSize;
             Cancelled = true;
         }
 
@@ -53,10 +76,21 @@ namespace QuickPad.ViewModel
                 if (string.IsNullOrEmpty(SavePath) || !Path.IsPathRooted(SavePath) || IsInvalid(SavePath)){
                     throw new Exception("Path is not valid.");
                 }
+                else if (settings.SaveFile != SavePath)
+                {
+                    settings.SaveFile = SavePath;
+                    Cancelled = false;
+                }
 
-                settings.SaveFile = SavePath;
-                settings.Save();
-                Cancelled = false;
+                if (FontSize != settings.FontSize)
+                {
+                    settings.FontSize = FontSize;
+                    Cancelled = false;
+                }
+
+                if (!Cancelled)
+                    settings.Save();
+
                 window.Close();
             }
             catch (Exception e)

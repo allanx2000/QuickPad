@@ -42,7 +42,7 @@
             <TextBlock Text="{Binding StatusText}"/>
         </StatusBar>
 
-        <TabControl Name="DocumentsViewer" ItemsSource="{Binding Tabs}" Margin="5" SelectedItem="{Binding CurrentTab}">
+        <TabControl x:Name="DocumentsViewer" ItemsSource="{Binding Tabs}" Margin="5" SelectedItem="{Binding CurrentTab}">
             <TabControl.ContextMenu>
                 <!-- This is TabControl Context-->
                 <ContextMenu>
@@ -63,7 +63,8 @@
             <TabControl.ContentTemplate>
                 <!-- this is the body of the TabItem template-->
                 <DataTemplate>
-                    <TextBox AcceptsReturn="True" AcceptsTab="True"
+                    <TextBox FontSize="{Binding DataContext.ContentFontSize, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" 
+                             AcceptsReturn="True" AcceptsTab="True"
                              VerticalContentAlignment="Top" HorizontalContentAlignment="Left"
                              ScrollViewer.HorizontalScrollBarVisibility="Auto"
                              ScrollViewer.VerticalScrollBarVisibility="Auto"

@@ -47,6 +47,11 @@ namespace QuickPad.ViewModel
             }
         }
 
+        public int ContentFontSize
+        {
+            get => settings.FontSize;
+        }
+
         public ICollection<Document> Tabs
         {
             get
