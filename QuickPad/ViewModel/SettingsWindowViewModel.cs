@@ -78,6 +78,7 @@ namespace QuickPad.ViewModel
                 }
                 else if (settings.SaveFile != SavePath)
                 {
+                    MessageBoxFactory.ShowInfo("This change will not take effect until the app is restarted.", "Save Path Changed");
                     settings.SaveFile = SavePath;
                     Cancelled = false;
                 }

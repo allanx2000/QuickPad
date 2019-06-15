@@ -177,9 +177,9 @@ namespace QuickPad.ViewModel
             dlg.Owner = window;
             dlg.ShowDialog();
 
-            if (!dlg.Cancelled && reloadNeeded)
+            if (!dlg.Cancelled)
             {
-                MessageBoxFactory.ShowInfo(window, "You need to restart the for changes to take effect.", "Restart Required");
+                RaisePropertyChanged("ContentFontSize");
             }
 
         }
