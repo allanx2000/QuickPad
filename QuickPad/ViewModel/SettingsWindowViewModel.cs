@@ -90,7 +90,7 @@ namespace QuickPad.ViewModel
                     Cancelled = false;
                 }
 
-                if (string.IsNullOrEmpty(HotKeyValue) && HotKeyValue != settings.HotKey)
+                if (!string.IsNullOrEmpty(HotKeyValue) && HotKeyValue != settings.HotKey)
                 {
                     Enum.Parse(typeof(Key), HotKeyValue);
                     settings.HotKey = HotKeyValue;
