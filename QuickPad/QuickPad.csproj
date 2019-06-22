@@ -66,6 +66,9 @@
     <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="GlobalHotKey, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\GlobalHotKey.1.1.0\lib\GlobalHotKey.dll</HintPath>
+    </Reference>
     <Reference Include="Innouvous.Utils.MarkdownViewer">
       <HintPath>..\..\Innouvous.Utils.MarkdownViewer\Innouvous.Utils.MarkdownViewer\Innouvous.Utils.MarkdownViewer\bin\Debug\Innouvous.Utils.MarkdownViewer.dll</HintPath>
     </Reference>

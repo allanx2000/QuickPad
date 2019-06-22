@@ -48,7 +48,7 @@ namespace QuickPad.ViewModel
             }
         }
 
-
+        public string HotKeyValue { get; set; }
 
         public SettingsWindowViewModel(Window window)
         {
@@ -56,6 +56,7 @@ namespace QuickPad.ViewModel
 
             SavePath = settings.SaveFile;
             FontSize = settings.FontSize;
+            HotKeyValue = settings.HotKey;
             Cancelled = true;
         }
 
@@ -87,6 +88,11 @@ namespace QuickPad.ViewModel
                 {
                     settings.FontSize = FontSize;
                     Cancelled = false;
+                }
+
+                if (string.IsNullOrEmpty(HotKeyValue) && HotKeyValue != settings.HotKey)
+                {
+                    Enum.Parse(typeof(Key), HotKeyValue);
                 }
 
                 if (!Cancelled)

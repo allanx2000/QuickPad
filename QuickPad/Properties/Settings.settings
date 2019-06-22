@@ -11,5 +11,8 @@
     <Setting Name="FontSize" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">12</Value>
     </Setting>
+    <Setting Name="HotKey" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Q</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -58,5 +58,17 @@ namespace QuickPad.Properties {
                 this["FontSize"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Q")]
+        public string HotKey {
+            get {
+                return ((string)(this["HotKey"]));
+            }
+            set {
+                this["HotKey"] = value;
+            }
+        }
     }
 }

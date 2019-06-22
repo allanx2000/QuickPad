@@ -22,6 +22,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
             <Label Grid.Row="0" Grid.Column="0" Style="{StaticResource GridField}">Save File:</Label>
@@ -30,12 +31,15 @@
                 <TextBox Text="{Binding SavePath}"/>
             </DockPanel>
 
-            <Label Grid.Row="1" Grid.Column="0" Style="{StaticResource GridField}">Font Size:</Label>
-            <StackPanel Grid.Row="1" Grid.Column="1"
+            <Label Grid.Row="1" Grid.Column="0">Hot Key:</Label>
+            <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left">
+                <Label>CTRL + SHIFT +</Label>
+                <TextBox Text="{Binding HotKeyValue, UpdateSourceTrigger=PropertyChanged}"  CharacterCasing="Upper" MaxLength="3" Width="40" ToolTip="A-Z, F1-12" />
+            </StackPanel>
+            
+            <Label Grid.Row="2" Grid.Column="0" Style="{StaticResource GridField}">Font Size:</Label>
+            <StackPanel Grid.Row="2" Grid.Column="1"
                         Orientation="Horizontal" >
-            <!--<TextBox  
-                     Width="35" HorizontalAlignment="Left"
-                     MaxLength="3" Text="{Binding FontSize}"/>-->
                 <xc:IntegerUpDown Increment="1" Minimum="5" Padding="3" Margin="5" Maximum="99" Value="{Binding FontSize}"/>
             </StackPanel>
         </Grid>

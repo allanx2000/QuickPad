@@ -1,4 +1,5 @@
-﻿using Innouvous.Utils;
+﻿using GlobalHotKey;
+using Innouvous.Utils;
 using Innouvous.Utils.MVVM;
 using Newtonsoft.Json;
 using QuickPad.Properties;
@@ -21,6 +22,8 @@ namespace QuickPad.ViewModel
 
         private readonly Settings settings;
         private readonly JsonSerializer jser = new JsonSerializer();
+        private HotKeyManager hotKeyManager;
+
         private bool tabDeleted = false;
         private const string New = "Untitled";
 
@@ -67,6 +70,46 @@ namespace QuickPad.ViewModel
             this.settings = Settings.Default;
 
             LoadSavedDocuments();
+
+            
+            SetUpHotKey();
+        }
+
+        private HotKey hkShowWindow;
+        private void SetUpHotKey()
+        {
+            try
+            {
+                if (hotKeyManager == null)
+                {
+                    hotKeyManager = new HotKeyManager();
+                    hotKeyManager.KeyPressed += HotKeyManager_KeyPressed;
+                }
+
+                if (settings.HotKey != null)
+                {
+                    Key k = (Key)Enum.Parse(typeof(Key), settings.HotKey);
+                    
+                    if (hkShowWindow != null)
+                        hotKeyManager.Unregister(hkShowWindow);
+
+                    var hk = hotKeyManager.Register(k, ModifierKeys.Control | ModifierKeys.Shift);
+                    hkShowWindow = hk;
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBoxFactory.ShowError(e, title: "Cannot Set HotKey");
+            }
+        }
+
+        private void HotKeyManager_KeyPressed(object sender, KeyPressedEventArgs e)
+        {
+            if (e.HotKey.Key == hkShowWindow.Key && e.HotKey.Modifiers == hkShowWindow.Modifiers)
+            {
+                window.Focus();
+                window.Activate();
+            }
         }
 
         private void LoadSavedDocuments()
@@ -179,6 +222,7 @@ namespace QuickPad.ViewModel
 
             if (!dlg.Cancelled)
             {
+                SetUpHotKey();
                 RaisePropertyChanged("ContentFontSize");
             }
 
