@@ -93,6 +93,8 @@ namespace QuickPad.ViewModel
                 if (string.IsNullOrEmpty(HotKeyValue) && HotKeyValue != settings.HotKey)
                 {
                     Enum.Parse(typeof(Key), HotKeyValue);
+                    settings.HotKey = HotKeyValue;
+                    Cancelled = false;
                 }
 
                 if (!Cancelled)
